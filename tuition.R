@@ -40,24 +40,3 @@ boot.hist<-ggplot(boot.samples, aes(min_tuition)) + geom_histogram(binwidth=1000
 #See the plot#
 boot.hist
 
-#To get the bootstrap percentile confidence interval, #
-#start by ranking the bootstrap means from smallest to largest #
-rankmean<-sort(boot.samples$mean_tuition)
-
-#Print out just the first few#
-head(rankmean)
-
-#Lower endpoint is the 2.5th percentile (95% confidence)#
-lower<-rankmean[25]
-lower
-
-#Upper endpont is the 97.5th percentile (95% confidence)#
-upper<-rankmean[975]
-upper
-
-#Bootstrap standard error of the mean#
-sd(rankmean)
-
-
-
-
