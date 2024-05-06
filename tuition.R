@@ -12,30 +12,32 @@ pri_tution_cost<- tuition_cost %>%
   filter(type == "Private") %>%
   filter(degree_length == "4 Year") %>%
   drop_na(state)
-ggplot(pri_tution_cost, aes(out_of_state_tuition))+geom_histogram()
+ggplot(pri_tution_cost, aes(out_of_state_total))+geom_histogram()
 
 
 #Expected Value
-mean(pri_tution_cost$out_of_state_tuition)
+Ex<-mean(pri_tution_cost$out_of_state_total)
 
 #Bootstrap
 
 #Set up an empty data set with 2 columns: simulation number, bootstrap mean#
 
-boot.samples<-data.frame(sim=1:1000,min_tuition=NA)
+boot.samples<-data.frame(sim=1:10000,min_tuition=NA)
 
 head(boot.samples)
 
 #For each row in the data set, draw a bootstrap sample from the original data and find min_tuition
 
-for(i in 1:1000){
+for(i in 1:10000){
   boot.samples$min_tuition[i]<-min(sample(pri_tution_cost$out_of_state_total,size=30,replace=TRUE))
 }
+
+
 
 head(boot.samples)
 
 #Histogram#
-boot.hist<-ggplot(boot.samples, aes(min_tuition)) + geom_histogram(binwidth=1000)
+boot.hist<-ggplot(boot.samples, aes(min_tuition)) + geom_histogram(binwidth=1000)+ geom_vline(xintercept = Ex, color = "red", linetype = "dashed")
 
 #See the plot#
 boot.hist
