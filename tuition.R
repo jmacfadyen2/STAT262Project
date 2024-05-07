@@ -7,6 +7,8 @@ library(dplyr)
 library(tidyr)
 library(tidyverse)
 
+###############################
+
 #Filtering the colleges we want to study: 4 Year Private Colleges in the 50 States of the US
 pri_tution_cost<- tuition_cost %>%
   filter(type == "Private") %>%
@@ -15,14 +17,15 @@ pri_tution_cost<- tuition_cost %>%
 
 #mean of out of state total
 mean_out_of_state_total<-mean(pri_tution_cost$out_of_state_total)
+
 #standard of out of state total
 sd_out_state_total<-sd(pri_tution_cost$out_of_state_total)
 
-sd_out_state_total^2
-
-
+#Plot of our Raw Data
 ggplot(pri_tution_cost, aes(out_of_state_total))+geom_histogram()+geom_vline(xintercept = mean_out_of_state_total, color = "red") + labs(x = "Out of State Total Costs", y = "Frequency", title = "Frequency of Out of State Total Costs in a 4 Year Private College")
 
+
+##########################################
 
 
 #Bootstrap
@@ -43,16 +46,15 @@ head(boot.samples)
 
 #mean min tuition
 mean_min_total_cost<-mean(boot.samples$min_total_cost)
+
 #standard deviation of min tuition
-sd_min_total_cost<-sd(boot.samples$min_total_cost)
+sd(boot.samples$min_total_cost)
 
 
 #Histogram#
 boot.hist<-ggplot(boot.samples, aes(min_total_cost)) + geom_histogram(binwidth=1000)+ geom_vline(xintercept = mean_min_total_cost, color = "red") + labs(x = "Minimum Total Cost", y = "Frequency", title = "Bootstrap Samples of Minimum Cost")
-
-#See the plot#
 boot.hist
-#What does our histogram tell us?
+
 
 
 #############################################CDF
@@ -61,11 +63,10 @@ cdf <- ecdf(boot.samples$min_total_cost)
 #plot CDF
 plot(cdf, xlab='x', ylab='CDF', main='CDF of Boot.Samples Data')
 
-###############################exponential distr
 ##################### Exponential Distribution
 beta <- 2
 # Generate random numbers from exponential distribution
-data <- data.frame(x = rexp(1000, rate = 40228.46/30)) # Change the rate parameter as needed
+data <- data.frame(x = rexp(10000, rate = 40228.46/30)) # Change the rate parameter as needed
 # Plot the density of the generated data using ggplot2
 ggplot(data, aes(x)) +
   geom_density(fill = "blue", alpha = 0.5) +
